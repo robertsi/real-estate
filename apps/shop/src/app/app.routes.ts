@@ -19,6 +19,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'map',
+    loadChildren: () =>
+      import('@org/feature-map').then(
+        m => m.FeatureMapRoutes
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'products',
   },
