@@ -24,13 +24,22 @@ export class FeatureMap implements AfterViewInit {
 
     const L = await import('leaflet');
 
+    const loc: L.LatLngExpression = [46.5477847, 15.6243754];
+    //containes nepremicnine.net api key lol....
+    //https://maps.googleapis.com/maps/api/geocode/json?language=&address=Ul.+Roberta+Hvalca+14%2C+2000+Maribor%2C+Slovenia&region=si&bounds=&components=&key=AIzaSyBilazss5s7dfNex93L6j6kRqF6kQCwhIo&sensor=false
+    //https://nominatim.openstreetmap.org/search?q=Ulica+Roberta+Hvalca+14+Maribor&format=json
     const map = L.map(this.mapEl.nativeElement).setView(
-      [46.0569, 14.5058],
-      13
+      loc,
+      18,
     );
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map);
+
+    L.marker(loc)
+      .addTo(map)
+      .bindPopup('10, Ulica Roberta Hvalca, Maribor')
+      .openPopup();
   }
 }
