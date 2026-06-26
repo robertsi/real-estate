@@ -24,6 +24,7 @@ export const appRoutes: Route[] = [
       import('@org/feature-map').then(
         m => m.FeatureMapRoutes
       ),
+    data: { ssr: false }
   },
   {
     path: '**',
