@@ -1,0 +1,13 @@
+{
+  "name": "feature-map",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/shop/feature-map/src",
+  "prefix": "shop",
+  "projectType": "library",
+  "tags": ["scope:shop", "type:feature"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
