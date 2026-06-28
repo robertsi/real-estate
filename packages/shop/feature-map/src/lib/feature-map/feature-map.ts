@@ -9,6 +9,10 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { PLACES } from './map-data';
 import { SI_BEACHES } from './map-data-os-si';
+import { PlacesService } from '@org/shop/data'
+
+import { from } from 'rxjs';
+import { concatMap, reduce } from 'rxjs/operators';
 
 @Component({
   selector: 'shop-feature-map',
@@ -20,6 +24,22 @@ export class FeatureMap implements AfterViewInit {
   @ViewChild('map', { static: true }) mapEl!: ElementRef;
 
   private platformId = inject(PLATFORM_ID);
+  private readonly placesService = inject(PlacesService);
+  private places: any[] = [];
+
+  downloadJson(data: any, filename: string) {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+
+  a.href = url;
+  a.download = filename;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
 
   async ngAfterViewInit(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -27,6 +47,8 @@ export class FeatureMap implements AfterViewInit {
     const L = await import('leaflet');
 
     const loc: L.LatLngExpression = [45.530751481732494, 13.564560421878287];
+
+    
     //const loc: L.LatLngExpression = [46.5477847, 15.6243754];
     //containes nepremicnine.net api key lol....
     //https://maps.googleapis.com/maps/api/geocode/json?language=&address=Ul.+Roberta+Hvalca+14%2C+2000+Maribor%2C+Slovenia&region=si&bounds=&components=&key=AIzaSyBilazss5s7dfNex93L6j6kRqF6kQCwhIo&sensor=false
@@ -82,13 +104,29 @@ export class FeatureMap implements AfterViewInit {
 
 ];
     //L.marker(loc).addTo(map).bindPopup('10, Search location').openPopup();
-    circles.forEach((circle) => {
-      L.circle([circle.latitude, circle.longitude], {
-      radius: 1000, // meters
-      color: 'blue',
-      fillOpacity: 0.2
-  }).addTo(map);
-});
+//     circles.forEach((circle) => {
+//       L.circle([circle.latitude, circle.longitude], {
+//       radius: 1000, // meters
+//       color: 'blue',
+//       fillOpacity: 0.2
+//   }).addTo(map);
+// });
+
+
+// from(circles).pipe(
+//   concatMap(circle =>
+//     this.placesService.searchNearby(circle.latitude, circle.longitude)
+//   ),
+//   reduce((acc, response) => {
+//     return acc.concat(response.places ?? []);
+//   }, [] as any[])
+// ).subscribe(allPlaces => {
+//   console.log('ALL PLACES:', allPlaces);
+
+//   this.places = allPlaces;
+//   this.downloadJson(allPlaces, 'places.json');
+// });
+
 
     PLACES.forEach((place) => {
       let lat = 0, lon = 0;
