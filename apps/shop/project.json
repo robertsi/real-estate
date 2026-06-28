@@ -9,6 +9,7 @@
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/shop",
         "browser": "apps/shop/src/main.ts",
@@ -48,13 +49,16 @@
           "extractLicenses": false,
           "sourceMap": true
         }
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "serve": {
-      "dependsOn": ["api:serve"],
+      "dependsOn": ["api:serve", "nest-api:serve"],
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/shop/proxy.conf.json"
+      },
       "configurations": {
         "production": {
           "buildTarget": "shop:build:production"
@@ -62,10 +66,6 @@
         "development": {
           "buildTarget": "shop:build:development"
         }
-      },
-      "defaultConfiguration": "development",
-      "options": {
-        "proxyConfig": "apps/shop/proxy.conf.json"
       }
     },
     "extract-i18n": {
