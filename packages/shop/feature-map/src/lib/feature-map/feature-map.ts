@@ -37,28 +37,98 @@ export class FeatureMap implements AfterViewInit {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map);
 
-    L.marker(loc).addTo(map).bindPopup('10, Search location').openPopup();
+   const circles = [
+  { "latitude": 45.530751, "longitude": 13.564560 },
+  { "latitude": 45.530751 , "longitude": 13.564560 + 0.0128 },
+  { "latitude": 45.530751 , "longitude": 13.564560 + 2 *0.0128 },
+  { "latitude": 45.530751 , "longitude": 13.564560 + 3 *0.0128 },
+  { "latitude": 45.530751 + 0.0090 , "longitude": 13.564560 + 3 *0.0128 },
+  { "latitude": 45.530751 + 0.0090 , "longitude": 13.564560 + 4 *0.0128 },
+  { "latitude": 45.530751 + 0.0090 , "longitude": 13.564560 + 5 *0.0128 },
+  { "latitude": 45.530751 + 0.0090 , "longitude": 13.564560 + 6 *0.0128 },
+  { "latitude": 45.530751 + 0.0090 , "longitude": 13.564560 + 7 *0.0128 },
+  { "latitude": 45.530751 + 0.0090 , "longitude": 13.564560 + 8 *0.0128 },
+  { "latitude": 45.530751 + 2 * 0.0090 , "longitude": 13.564560 + 8 *0.0128 },
+  { "latitude": 45.530751 + 2 * 0.0090 , "longitude": 13.564560 + 9 *0.0128 },
+  { "latitude": 45.530751 + 2 * 0.0090 , "longitude": 13.564560 + 10 *0.0128 },
+  { "latitude": 45.530751 + 2 * 0.0090 , "longitude": 13.564560 + 11 *0.0128 },
+  { "latitude": 45.530751 + 2 * 0.0090 , "longitude": 13.564560 + 12 *0.0128 },
+  { "latitude": 45.530751 + 2 * 0.0090 , "longitude": 13.564560 + 13 *0.0128 },
+  { "latitude": 45.530751 + 3 * 0.0090 , "longitude": 13.564560 + 13 *0.0128 },
+  { "latitude": 45.530751 + 4 * 0.0090 , "longitude": 13.564560 + 13 *0.0128 },
+    { "latitude": 45.530751 + 4 * 0.0090 , "longitude": 13.564560 + 14 *0.0128 },
+  { "latitude": 45.530751 + 5 * 0.0090 , "longitude": 13.564560 + 13 *0.0128 },
+    { "latitude": 45.530751 + 5 * 0.0090 , "longitude": 13.564560 + 14 *0.0128 },
 
-    // PLACES.forEach((place) => {
-    //   L.marker([place.location.latitude, place.location.longitude])
-    //     .addTo(map)
-    //     .bindPopup(place.displayName.text);
-    // });
 
-    // SI_BEACHES.forEach((place) => {
-    //   if(place.lat && place.lon && place.tags.name) {
-    //     L.marker([place.lat, place.lon])
-    //       .addTo(map)
-    //       .bindPopup(place.tags.name);
-    //   }
-    // });
+  { "latitude": 45.530751 + 6 * 0.0090 , "longitude": 13.564560 + 13 *0.0128 },
+    { "latitude": 45.530751 + 6 * 0.0090 , "longitude": 13.564560 + 14 *0.0128 },
+  { "latitude": 45.530751 + 6 * 0.0090 , "longitude": 13.564560 + 12 *0.0128 },
+  { "latitude": 45.530751 + 6 * 0.0090 , "longitude": 13.564560 + 11 *0.0128 },
 
-    SI_BEACHES.forEach((place) => {
-      if(place.center) {
-        L.marker([place.center.lat, place.center.lon])
-          .addTo(map)
-          .bindPopup("beach");
-      }
+
+  { "latitude": 45.530751 + 7 * 0.0090 , "longitude": 13.564560 + 13 *0.0128 },
+  { "latitude": 45.530751 + 7 * 0.0090 , "longitude": 13.564560 + 12 *0.0128 },
+  { "latitude": 45.530751 + 7 * 0.0090 , "longitude": 13.564560 + 11 *0.0128 },
+
+   { "latitude": 45.530751 - 0.0090, "longitude": 13.564560 },
+   { "latitude": 45.530751 - 0.0090, "longitude": 13.564560 + 1 *0.0128},
+   { "latitude": 45.530751 - 0.0090, "longitude": 13.564560 +2 *0.0128},
+   { "latitude": 45.530751 - 2 *0.0090, "longitude": 13.564560 +2 *0.0128},
+   { "latitude": 45.530751 - 3 *0.0090, "longitude": 13.564560 +2 *0.0128},
+   { "latitude": 45.530751 - 4 *0.0090, "longitude": 13.564560 +2 *0.0128},
+   { "latitude": 45.530751 - 5 *0.0090, "longitude": 13.564560 +2 *0.0128},
+   { "latitude": 45.530751 - 6 *0.0090, "longitude": 13.564560 +2 *0.0128},
+
+];
+    //L.marker(loc).addTo(map).bindPopup('10, Search location').openPopup();
+    circles.forEach((circle) => {
+      L.circle([circle.latitude, circle.longitude], {
+      radius: 1000, // meters
+      color: 'blue',
+      fillOpacity: 0.2
+  }).addTo(map);
+});
+
+    PLACES.forEach((place) => {
+      let lat = 0, lon = 0;
+      lat = place.location.latitude;
+      lon = place.location.longitude;
+      //const url = `https://www.google.com/maps?q=${lat},${lon}`;
+      const url = place.googleMapsUri
+        const popupContent = `
+          <a href="${url}" target="_blank" rel="noopener noreferrer">
+            ${place.displayName.text}
+          </a>
+        `;
+      L.marker([place.location.latitude, place.location.longitude])
+        .addTo(map)
+        .bindPopup(popupContent);
     });
+
+
+
+
+    //open street map data
+    // SI_BEACHES.forEach((place) => {
+    //   let lat = 0, lon = 0;
+    //   if(place.lat && place.lon) {
+    //     lat = place.lat;
+    //     lon = place.lon;
+    //   }
+    //   if(place.center) {
+    //     lat = place.center.lat;
+    //     lon = place.center.lon;
+    //   }
+    //     const url = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=16/${lat}/${lon}`;
+    //     const popupContent = `
+    //       <a href="${url}" target="_blank" rel="noopener noreferrer">
+    //         ${place.tags.name}
+    //       </a>
+    //     `;
+    //     L.marker([lat, lon])
+    //       .addTo(map)
+    //       .bindPopup(popupContent);
+    //   });
   }
 }
