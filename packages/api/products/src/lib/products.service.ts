@@ -39,15 +39,18 @@ export class ProductsService {
         );
       }
 
-      if (filter.minPrice !== undefined) {
+      const minPrice = filter.minPrice;
+      const maxPrice = filter.maxPrice;
+
+      if (minPrice !== undefined) {
         filteredProducts = filteredProducts.filter(
-          p => p.price >= filter.minPrice
+          p => p.price >= minPrice
         );
       }
 
-      if (filter.maxPrice !== undefined) {
+      if (maxPrice !== undefined) {
         filteredProducts = filteredProducts.filter(
-          p => p.price <= filter.maxPrice
+          p => p.price <= maxPrice
         );
       }
 

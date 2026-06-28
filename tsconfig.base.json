@@ -4,28 +4,77 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "@org/api/products": ["./packages/api/products/src/index.ts"],
-      "@org/models": ["./packages/shared/models/src/index.ts"],
-      "@org/shop/data": ["./packages/shop/data/src/index.ts"],
+      "@org/api/products": [
+        "./packages/api/products/src/index.ts"
+      ],
+      "@org/models": [
+        "./packages/shared/models/src/index.ts"
+      ],
+      "@org/shop/data": [
+        "./packages/shop/data/src/index.ts"
+      ],
       "@org/shop/feature-product-detail": [
         "./packages/shop/feature-product-detail/src/index.ts"
       ],
       "@org/shop/feature-products": [
         "./packages/shop/feature-products/src/index.ts"
       ],
-      "@org/shop/shared-ui": ["./packages/shop/shared-ui/src/index.ts"],
-      "@org/feature-map": ["./packages/shop/feature-map/src/index.ts"]
-    }
+      "@org/shop/shared-ui": [
+        "./packages/shop/shared-ui/src/index.ts"
+      ],
+      "@org/feature-map": [
+        "./packages/shop/feature-map/src/index.ts"
+      ]
+    },
+    "plugins": [
+      {
+        "transform": "@nestia/core/lib/transform",
+        /**
+         * Validate request body.
+         * 
+         *   - "assert": Use typia.assert() function
+         *   - "is": Use typia.is() function
+         *   - "validate": Use typia.validate() function
+         *   - "assertEquals": Use typia.assertEquals() function
+         *   - "equals": Use typia.equals() function
+         *   - "validateEquals": Use typia.validateEquals() function
+         */
+        "validate": "validate",
+        
+        /**
+         * Validate JSON typed response body.
+         * 
+         *   - "assert": Use typia.assertStringify() function
+         *   - "is": Use typia.isStringify() function
+         *   - "validate": Use typia.validateStringify() function
+         *   - "validate.log": typia.validateStringify(), but do not throw and just log it
+         *   - "stringify": Use typia.stringify() function, but dangerous
+         *   - null: Just use JSON.stringify() function, without boosting
+         */
+        "stringify": "assert"
+      },
+      {
+        "transform": "typia/lib/transform"
+      }
+    ],
+    "strictNullChecks": true,
+    "strict": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
