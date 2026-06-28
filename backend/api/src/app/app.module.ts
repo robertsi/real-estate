@@ -5,7 +5,7 @@ import { BeachController } from "./beach.controller";
 
 @Module({
   imports: [],
-  controllers: [AppController, BeachController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
