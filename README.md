@@ -30,6 +30,9 @@ This repository demonstrates a production-ready Angular monorepo with:
 ## 🚀 Quick Start
 
 ```pwsh
+npx nestia setup --manager pnpm
+https://nestia.io/docs/setup/
+nx run nest-api:build:validate:nestia
 pnpm exec nx generate @nx/angular:library --name=feature-map --directory=packages/shop/feature-map  --prefix=shop --tags=scope:shop,type:feature --no-interactive --dry-run
 ```
 
